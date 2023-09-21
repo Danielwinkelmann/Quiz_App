@@ -24,14 +24,6 @@ let questions = [
         "right_answer": 2
     },
     {
-        "question": "Welche der folgenden ist KEIN gültiger HTML-Tag?",
-        "answer_1": "<div>",
-        "answer_2": "<p>",
-        "answer_3": "<section>",
-        "answer_4": "<click>",
-        "right_answer": 4
-    },
-    {
         "question": "Was bedeutet CSS in Bezug auf Webdesign?",
         "answer_1": "Creative Style Sheets",
         "answer_2": "Cascading Style Sheets",
@@ -56,14 +48,6 @@ let questions = [
         "right_answer": 3
     },
     {
-        "question": "Welches HTML-Tag wird verwendet, um eine Liste mit nummerierten Punkten zu erstellen?",
-        "answer_1": "<ul>",
-        "answer_2": "<ol>",
-        "answer_3": "<li>",
-        "answer_4": "<p>",
-        "right_answer": 2
-    },
-    {
         "question": "Was ist der Zweck von JavaScript?",
         "answer_1": "Styling von Webseiten",
         "answer_2": "Datenbankverwaltung",
@@ -81,34 +65,44 @@ let questions = [
     }
 ];
 
+let rightQuestions = 0;
+
 let currentQuestion = 0;
 
 
 function init() {
-    document.getElementById('allQuestions').innerHTML = questions.length;
+    document.getElementById('all-Questions').innerHTML = questions.length;
     showQuestion();
 }
 
 function showQuestion() {
-    let question = questions[currentQuestion];
-    document.getElementById('question-number').innerHTML = currentQuestion + 1;
-    document.getElementById('questiontext').innerHTML = question['question'];
-    document.getElementById('answer_1').innerHTML = question['answer_1'];
-    document.getElementById('answer_2').innerHTML = question['answer_2'];
-    document.getElementById('answer_3').innerHTML = question['answer_3'];
-    document.getElementById('answer_4').innerHTML = question['answer_4'];
+
+    if (currentQuestion >= questions.length) {
+        // ToDo
+        document.getElementById('endScreen').style = '';
+        document.getElementById('questionBody').style = 'display: none;';
+        document.getElementById('amount-of-questions').innerHTML = questions.length;
+        document.getElementById('amount-of-right-questions').innerHTML = rightQuestions;
+        document.getElementById('header-image').src = './img/trophy.png';
+    } else {
+        let question = questions[currentQuestion];
+        document.getElementById('question-number').innerHTML = currentQuestion + 1;
+        document.getElementById('questiontext').innerHTML = question['question'];
+        document.getElementById('answer_1').innerHTML = question['answer_1'];
+        document.getElementById('answer_2').innerHTML = question['answer_2'];
+        document.getElementById('answer_3').innerHTML = question['answer_3'];
+        document.getElementById('answer_4').innerHTML = question['answer_4'];
+    }
 }
 
 function answer(selection) {
     let question = questions[currentQuestion];
-    console.log(selection);
     let selectedQuestionNumber = selection.slice(-1);
     let idOfRightAnswer = `answer_${question['right_answer']}`;
     if (selectedQuestionNumber == question['right_answer']) {
-        console.log('Richtige Antwort!!');
         document.getElementById(selection).parentElement.classList.add('bg-success');
+        rightQuestions++;
     } else {
-        console.log('Falsche Antwort!!');
         document.getElementById(selection).parentElement.classList.add('bg-danger');
         document.getElementById(idOfRightAnswer).parentElement.classList.add('bg-success');
     }
